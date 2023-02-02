@@ -28,6 +28,7 @@ public class GridManager : MonoBehaviour
                 newTile.GetComponent<PointManager>().pointValue = valueArray[row, column];
                 newTile.GetComponent<PointManager>().pointX = row;
                 newTile.GetComponent<PointManager>().pointY = column;
+                newTile.name = row.ToString() + column.ToString();
                 newTile.transform.parent = transform; // 6
                 newTile.transform.position = transform.position + new Vector3(column * Distance, -row * Distance, 0); // 7
             }
