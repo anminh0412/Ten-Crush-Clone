@@ -12,7 +12,11 @@ public class GamePlayController : MonoBehaviour
     PointManager point2;
 
     [SerializeField] TextMeshProUGUI scoresText;
+    [SerializeField] GameObject winPanel;
     int score = 0;
+    public int currentPoint = 0;
+    public int targetPoint;
+
     public void GetPoint(int x, int y)
     {
         if(getFirstPoint == false)
@@ -241,10 +245,21 @@ public class GamePlayController : MonoBehaviour
             return;
         }
     }
-
     void UpdateScore()
     {
         score += 10;
         scoresText.SetText(score.ToString());
+    }
+    public void CheckingLevelComplete(int _getPoint)
+    {
+        currentPoint += _getPoint;
+        if(currentPoint >= targetPoint)
+        {
+            LevelCompleted();
+        }
+    }
+    void LevelCompleted()
+    {
+        winPanel.SetActive(true);
     }
 }
