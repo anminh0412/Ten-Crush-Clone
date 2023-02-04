@@ -34,6 +34,8 @@ public class GridManager : MonoBehaviour
     int _9;
 
     int[,] valueArray;
+    public PointManager[,] pointArray; 
+
     int arrayElements;
     int inputElements;
     int tempRow;
@@ -75,6 +77,7 @@ public class GridManager : MonoBehaviour
     void SetValueArray()
     {
         valueArray = new int[gridRow, gridCol];
+        pointArray = new PointManager[gridRow, gridCol];
         InputValueToRandomPosition(1, _1);
         InputValueToRandomPosition(2, _2);
         InputValueToRandomPosition(3, _3);
@@ -122,19 +125,22 @@ public class GridManager : MonoBehaviour
             for (int column = 0; column < gridCol; column++) 
             {
                 GameObject newTile = Instantiate(TilePrefab);
-                newTile.GetComponent<PointManager>().pointValue = valueArray[row, column];
-                newTile.GetComponent<PointManager>().pointX = row;
-                newTile.GetComponent<PointManager>().pointY = column;
+                pointArray[row, column] = newTile.GetComponent<PointManager>();
+                pointArray[row, column].pointValue = valueArray[row, column];
+                pointArray[row, column].pointX = row;
+                pointArray[row, column].pointY = column;
                 newTile.name = row.ToString() + column.ToString();
                 newTile.transform.parent = transform; 
-                newTile.transform.position = transform.position + new Vector3(column * Distance, -row * Distance, 0); 
+                newTile.transform.position = transform.position + new Vector3(column * Distance, -row * Distance, 0);
+                
             }
     }
     void GetRandomPositionToSetTargetPoint()
     {
         int row = Random.Range(0, gridRow);
         int col = Random.Range(0, gridCol);
-        PointManager tempPoint = GameObject.Find(row.ToString() + col.ToString()).GetComponent<PointManager>();
+        //PointManager tempPoint = GameObject.Find(row.ToString() + col.ToString()).GetComponent<PointManager>();
+        PointManager tempPoint = pointArray[row, col];
         if (tempPoint.youAreTarget == false)
         {
             tempRow2 = row;
@@ -149,12 +155,14 @@ public class GridManager : MonoBehaviour
     void SetTargetPoint()
     {
         gameObject.GetComponent<GamePlayController>().targetPoint = _targetPoint;
+        if (_targetPoint > arrayElements) _targetPoint = arrayElements;
         for (int i = 1; i <= _targetPoint; i++)
         {
             GetRandomPositionToSetTargetPoint();
-            PointManager tempPoint = GameObject.Find(tempRow2.ToString() + tempCol2.ToString()).GetComponent<PointManager>();
-            tempPoint.youAreTarget = true;
-            tempPoint.gameManager = gameObject.GetComponent<GamePlayController>();
+            //PointManager tempPoint = GameObject.Find(tempRow2.ToString() + tempCol2.ToString()).GetComponent<PointManager>();
+            PointManager tempPointManager = pointArray[tempRow2, tempCol2];
+            tempPointManager.youAreTarget = true;
+            tempPointManager.gameManager = gameObject.GetComponent<GamePlayController>();
         }
     }
     void Start()

@@ -157,7 +157,7 @@ MonoBehaviour:
   gridRow: 8
   gridCol: 8
   Distance: 1.1
-  _targetPoint: 5
+  _targetPoint: 8
   _11: 20
   _22: 3
   _33: 3

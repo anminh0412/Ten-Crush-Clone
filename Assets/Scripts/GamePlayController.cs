@@ -10,6 +10,7 @@ public class GamePlayController : MonoBehaviour
     bool getFirstPoint = false;
     PointManager point1;
     PointManager point2;
+    GridManager gird;
 
     [SerializeField] TextMeshProUGUI scoresText;
     [SerializeField] GameObject winPanel;
@@ -17,20 +18,26 @@ public class GamePlayController : MonoBehaviour
     public int currentPoint = 0;
     public int targetPoint;
 
+    private void Start()
+    {
+        gird = gameObject.GetComponent<GridManager>();
+    }
     public void GetPoint(int x, int y)
     {
         if(getFirstPoint == false)
         {
             firstPointX = x;
             firstPointY = y;
-            point1 = GameObject.Find((firstPointX).ToString() + (firstPointY).ToString()).GetComponent<PointManager>();
+            //point1 = GameObject.Find((firstPointX).ToString() + (firstPointY).ToString()).GetComponent<PointManager>();
+            point1 = gird.pointArray[(int)firstPointX, (int)firstPointY];
             getFirstPoint = true;
         }
         else if (getFirstPoint == true)
         {
             lastPointX = x;
             lastPointY = y;
-            point2 = GameObject.Find((lastPointX).ToString() + (lastPointY).ToString()).GetComponent<PointManager>();
+            //point2 = GameObject.Find((lastPointX).ToString() + (lastPointY).ToString()).GetComponent<PointManager>();
+            point2 = gird.pointArray[(int)lastPointX, (int)lastPointY];
             Checking();
         }
     }
@@ -72,8 +79,9 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < checkX; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX - i).ToString() + (firstPointY - i).ToString()).GetComponent<PointManager>().state;
-                    if(checkGoState)
+                    //bool checkGoState = GameObject.Find((firstPointX - i).ToString() + (firstPointY - i).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX - i), (int)(firstPointY - i)].state;
+                    if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
                         point1.Checked();
@@ -91,7 +99,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < checkX; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX - i).ToString() + (firstPointY + i).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX - i).ToString() + (firstPointY + i).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX - i), (int)(firstPointY + i)].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
@@ -110,7 +119,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < checkX; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX - i).ToString() + (firstPointY).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX - i).ToString() + (firstPointY).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX - i), (int)firstPointY].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
@@ -132,7 +142,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < checkY; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX + i).ToString() + (firstPointY - i).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX + i).ToString() + (firstPointY - i).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX + i), (int)(firstPointY - i)].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
@@ -151,7 +162,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < -checkY; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX + i).ToString() + (firstPointY + i).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX + i).ToString() + (firstPointY + i).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX + i), (int)(firstPointY + i)].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
@@ -170,7 +182,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < -checkX; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX + i).ToString() + (firstPointY).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX + i).ToString() + (firstPointY).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX + i), (int)(firstPointY)].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
@@ -192,7 +205,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < checkY; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX).ToString() + (firstPointY - i).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX).ToString() + (firstPointY - i).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX), (int)(firstPointY - i)].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
@@ -211,7 +225,8 @@ public class GamePlayController : MonoBehaviour
                 for (int? i = 1; i < -checkY; i++)
                 {
                     //Debug.Log("dang tim" + (firstPointX - i).ToString() + (firstPointY - i).ToString());
-                    bool checkGoState = GameObject.Find((firstPointX).ToString() + (firstPointY + i).ToString()).GetComponent<PointManager>().state;
+                    //bool checkGoState = GameObject.Find((firstPointX).ToString() + (firstPointY + i).ToString()).GetComponent<PointManager>().state;
+                    bool checkGoState = gird.pointArray[(int)(firstPointX), (int)(firstPointY + i)].state;
                     if (checkGoState)
                     {
                         Debug.Log("Duong di da bi chan");
