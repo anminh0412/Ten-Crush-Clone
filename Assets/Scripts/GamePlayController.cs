@@ -41,7 +41,6 @@ public class GamePlayController : MonoBehaviour
             Checking();
         }
     }
-    
     void ResetPoint()
     {
         firstPointX = null;

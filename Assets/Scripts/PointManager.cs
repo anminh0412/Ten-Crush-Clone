@@ -17,7 +17,9 @@ public class PointManager : MonoBehaviour
     [SerializeField] GameObject imageSatisfied;
     [SerializeField] GameObject imageSelect;
     [SerializeField] GameObject imageTarget;
+    [SerializeField] GameObject imageSuggest;
     public GamePlayController gameManager;
+    public GridManager _gridManager;
 
     private void Start()
     {
@@ -40,6 +42,12 @@ public class PointManager : MonoBehaviour
     {
         imageSelect.SetActive(true);
         GameObject.Find("GameController").GetComponent<GamePlayController>().GetPoint(pointX, pointY);
+        _gridManager.currentWaitingTime = _gridManager.waitingTime;
+        _gridManager.suggested = false;
+    }
+    public void SuggestPoint()
+    {
+        imageSuggest.SetActive(true);
     }
     public void DestroyEvent()
     {
