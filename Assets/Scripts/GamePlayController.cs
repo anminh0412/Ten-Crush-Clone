@@ -14,6 +14,7 @@ public class GamePlayController : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI scoresText;
     [SerializeField] GameObject winPanel;
+    [SerializeField] GameObject lossPanel;
     int score = 0;
     public int currentPoint = 0;
     public int targetPoint;
@@ -248,7 +249,8 @@ public class GamePlayController : MonoBehaviour
             UpdateScore(10);
             point1.Satisfied();
             point2.Satisfied();
-            if(point1.pointX == point2.pointX)
+            gird.CheckGameOver();
+            if (point1.pointX == point2.pointX)
             {
                 gird.CheckEmptyRow(point1.pointX);
                 gird.CheckEmptyCol(point1.pointY);
@@ -292,5 +294,9 @@ public class GamePlayController : MonoBehaviour
     void LevelCompleted()
     {
         winPanel.SetActive(true);
+    }
+    public void LevelLoss()
+    {
+        lossPanel.SetActive(true);
     }
 }

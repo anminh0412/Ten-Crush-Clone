@@ -11,6 +11,7 @@ public class PointManager : MonoBehaviour
 
     public bool state = true;
     public bool youAreTarget = false;
+    public bool youAreSuggest = false;
 
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] GameObject button;
@@ -33,6 +34,11 @@ public class PointManager : MonoBehaviour
         imageSelect.SetActive(false);
         imageSatisfied.SetActive(true);
         if (youAreTarget && gameManager != null) gameManager.CheckingLevelComplete(1);
+        if (youAreSuggest && _gridManager != null)
+        {
+            _gridManager.currentWaitingTime = _gridManager.waitingTime;
+            _gridManager.suggested = false;
+        }
     }
     public void Checked()
     {
@@ -42,12 +48,11 @@ public class PointManager : MonoBehaviour
     {
         imageSelect.SetActive(true);
         GameObject.Find("GameController").GetComponent<GamePlayController>().GetPoint(pointX, pointY);
-        _gridManager.currentWaitingTime = _gridManager.waitingTime;
-        _gridManager.suggested = false;
     }
     public void SuggestPoint()
     {
         imageSuggest.SetActive(true);
+        youAreSuggest = true;
     }
     public void DestroyEvent()
     {

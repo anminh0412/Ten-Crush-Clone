@@ -31,6 +31,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] int _73;
     [SerializeField] int _64;
 
+
+    [SerializeField] TMP_InputField _TtargetPoint;
     [SerializeField] TMP_InputField _TgridRow;
     [SerializeField] TMP_InputField _TgridCol;
     [SerializeField] TMP_InputField _T11;
@@ -58,7 +60,10 @@ public class GridManager : MonoBehaviour
     int _9;
 
     int[,] valueArray;
-    public PointManager[,] pointArray; 
+    public PointManager[,] pointArray;
+    List<PointManager> checkedList = new List<PointManager>();
+    List<PointManager> checkedActiveList;
+    List<bool> checkedGameOver = new List<bool>();
 
     int arrayElements;
     int inputElements;
@@ -85,6 +90,7 @@ public class GridManager : MonoBehaviour
         if (_T82.text == "") _82 = 0; else _82 = int.Parse(_T82.text);
         if (_T73.text == "") _73 = 0; else _73 = int.Parse(_T73.text);
         if (_T64.text == "") _64 = 0; else _64 = int.Parse(_T64.text);
+        if (_TtargetPoint.text == "") _targetPoint = 5; else _targetPoint = int.Parse(_TtargetPoint.text);
         configCanvat.SetActive(false);
         GameStart();
     }
@@ -178,8 +184,9 @@ public class GridManager : MonoBehaviour
                 newTile.name = row.ToString() + column.ToString();
                 newTile.transform.parent = transform; 
                 newTile.transform.position = transform.position + new Vector3(column * Distance, -row * Distance, 0);
-                
+                checkedList.Add(pointArray[row, column]);
             }
+        checkedActiveList = new List<PointManager>(checkedList);
     }
     void GetRandomPositionToSetTargetPoint()
     {
@@ -261,18 +268,19 @@ public class GridManager : MonoBehaviour
     void RandomSuggest()
     {
         suggested = true;
-        int row = Random.Range(0, gridRow);
-        int col = Random.Range(0, gridCol);
-
-        if (pointArray[row,col].state == true)
+        if (checkedActiveList.Count <= 0)
         {
-            FindPointSatisfied(row, col);
+            return;
         }
-        else if(pointArray[row, col].state == false) RandomSuggest();
+        int listIndex = Random.Range(0, checkedActiveList.Count - 1);
+        PointManager _pManager = checkedActiveList[listIndex];
+        int row = _pManager.pointX;
+        int col = _pManager.pointY;
+        checkedActiveList.RemoveAt(listIndex);
+        FindPointSatisfied(row,col);
     }
     void FindPointSatisfied(int _findX, int _findY)
     {
-        Debug.Log("dang tim diem thoa man cho: " + _findX + " - " + _findY);
         //tren
         for (int i = _findX - 1; i >= 0; i--)
         {
@@ -426,25 +434,193 @@ public class GridManager : MonoBehaviour
         pointArray[_row1, _col1].SuggestPoint();
         pointArray[_row2, _col2].SuggestPoint();
     }
+    public void CheckGameOver()
+    {
+        for (int i = 0; i < checkedList.Count; i++)
+        {
+            CheckingGameOver(checkedList[i].pointX, checkedList[i].pointY);
+        }
+        if(checkedGameOver.Count == checkedList.Count)
+        {
+            _gamePlayController.LevelLoss();
+        }
+        else checkedGameOver.Clear();
+    }
+    void CheckingGameOver(int _findX, int _findY)
+    {
+        for (int i = _findX - 1; i >= 0; i--)
+        {
+            if (pointArray[i, _findY].state == true)
+            {
+                if (pointArray[i, _findY].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //duoi
+        for (int i = _findX + 1; i < gridRow; i++)
+        {
+            if (pointArray[i, _findY].state == true)
+            {
+                if (pointArray[i, _findY].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //phai
+        for (int j = _findY + 1; j < gridCol; j++)
+        {
+            if (pointArray[_findX, j].state == true)
+            {
+                if (pointArray[_findX, j].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //trai
+        for (int j = _findY - 1; j >= 0; j--)
+        {
+            if (pointArray[_findX, j].state == true)
+            {
+                if (pointArray[_findX, j].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //trai tren
+        for (int i = 1; i >= 0; i++)
+        {
+            if (_findX - i <= 0 || _findY - i <= 0)
+            {
+                break;
+            }
+            if (pointArray[_findX - i, _findY - i].state == true)
+            {
+                if (pointArray[_findX - i, _findY - i].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //phai tren
+        for (int i = 1; i >= 0; i++)
+        {
+            if (_findX - i <= 0 || _findY + i >= gridCol - 1)
+            {
+                break;
+            }
+            if (pointArray[_findX - i, _findY + i].state == true)
+            {
+                if (pointArray[_findX - i, _findY + i].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //trai duoi
+        for (int i = 1; i >= 0; i++)
+        {
+            if (_findX + i >= gridRow - 1 || _findY - i <= 0)
+            {
+                break;
+            }
+            if (pointArray[_findX + i, _findY - i].state == true)
+            {
+                if (pointArray[_findX + i, _findY - i].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        //phai duoi
+        for (int i = 1; i >= 0; i++)
+        {
+            if (_findX + i >= gridRow - 1 || _findY + i >= gridCol - 1)
+            {
+                break;
+            }
+            if (pointArray[_findX + i, _findY + i].state == true)
+            {
+                if (pointArray[_findX + i, _findY + i].pointValue == pointArray[_findX, _findY].pointValue)
+                {
+                    return;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        checkedGameOver.Add(true);
+    }
     void GameStart()
     {
-        currentWaitingTime = waitingTime;
         _gamePlayController = gameObject.GetComponent<GamePlayController>();
-        gameStated = true;
         CalculationNumber();
         CalculationArraySize();
         FixArraySize();
         SetValueArray();
         SpawnGrid();
         SetTargetPoint();
+        currentWaitingTime = waitingTime;
+        gameStated = true;
+    }
+    private void Update()
+    {
+        if (gameStated == false) return;
+        currentWaitingTime -= Time.deltaTime;
+        if (currentWaitingTime <= 0f && !suggested)
+        {
+            RandomSuggest();
+        }
     }
     private void FixedUpdate()
     {
         if (gameStated == false) return;
-        currentWaitingTime -= Time.deltaTime;
-        if(currentWaitingTime <= 0f && !suggested)
+        for (int i = 0; i <= checkedList.Count - 1; i++)
         {
-            RandomSuggest();
+            if (checkedList[i].state == false) 
+            { 
+                checkedList.RemoveAt(i);
+                checkedActiveList = new List<PointManager>(checkedList);
+            }
         }
+        Debug.Log("curren array count" + checkedActiveList.Count);
+        /*if(checkedActiveList.Count <= 0)
+        {
+            _gamePlayController.LevelLoss();
+        }*/
     }
 }
