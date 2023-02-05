@@ -26,6 +26,7 @@ public class PointManager : MonoBehaviour
     }
     public void Satisfied()
     {
+        state = false;
         button.SetActive(false);
         imageSelect.SetActive(false);
         imageSatisfied.SetActive(true);
@@ -39,5 +40,9 @@ public class PointManager : MonoBehaviour
     {
         imageSelect.SetActive(true);
         GameObject.Find("GameController").GetComponent<GamePlayController>().GetPoint(pointX, pointY);
+    }
+    public void DestroyEvent()
+    {
+        Destroy(gameObject);
     }
 }

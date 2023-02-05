@@ -246,11 +246,28 @@ public class GamePlayController : MonoBehaviour
         if (point1.pointValue == point2.pointValue || point1.pointValue + point2.pointValue == 10)
         {
             Debug.Log("Hop le");
-            UpdateScore();
-            point1.state = false;
-            point2.state = false;
+            UpdateScore(10);
             point1.Satisfied();
             point2.Satisfied();
+            if(point1.pointX == point2.pointX)
+            {
+                gird.CheckEmptyRow(point1.pointX);
+                gird.CheckEmptyCol(point1.pointY);
+                gird.CheckEmptyCol(point2.pointY);
+            }
+            else if (point1.pointY == point2.pointY)
+            {
+                gird.CheckEmptyCol(point1.pointY);
+                gird.CheckEmptyRow(point1.pointX);
+                gird.CheckEmptyRow(point2.pointX);
+            }
+            else
+            {
+                gird.CheckEmptyCol(point1.pointY);
+                gird.CheckEmptyCol(point2.pointY);
+                gird.CheckEmptyRow(point1.pointX);
+                gird.CheckEmptyRow(point2.pointX);
+            }
         }
         else 
         {
@@ -260,9 +277,9 @@ public class GamePlayController : MonoBehaviour
             return;
         }
     }
-    void UpdateScore()
+    public void UpdateScore(int _score)
     {
-        score += 10;
+        score += _score;
         scoresText.SetText(score.ToString());
     }
     public void CheckingLevelComplete(int _getPoint)

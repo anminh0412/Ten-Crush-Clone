@@ -8,6 +8,7 @@ public class GridManager : MonoBehaviour
     public int gridRow;
     public int gridCol;
     public float Distance = 1.0f;
+    GamePlayController _gamePlayController;
 
     [SerializeField] int _targetPoint;
     [SerializeField] int _11;
@@ -165,8 +166,56 @@ public class GridManager : MonoBehaviour
             tempPointManager.gameManager = gameObject.GetComponent<GamePlayController>();
         }
     }
+    public void CheckEmptyCol(int _col)
+    {
+        for(int i = 0; i < gridRow; i++)
+        {
+            if (pointArray[i,_col].state == true)
+            {
+                return;
+            }
+        }
+        for (int i = 0; i < gridRow; i++)
+        {
+            pointArray[i, _col].DestroyEvent();
+        }
+
+        for (int i = 0; i < gridRow; i++)
+            for (int j = _col; j < gridCol - 1; j++)
+            {
+                pointArray[i, j] = pointArray[i,j + 1];
+                pointArray[i, j].transform.position += new Vector3(-Distance, 0, 0);
+                pointArray[i, j].pointY -= 1;
+            }
+        gridCol -= 1;
+        _gamePlayController.UpdateScore(gridRow * 10);
+    }
+    public void CheckEmptyRow(int _row)
+    {
+        for (int i = 0; i < gridCol; i++)
+        {
+            if (pointArray[_row,i].state == true)
+            {
+                return;
+            }
+        }
+        for (int i = 0; i < gridCol; i++)
+        {
+            pointArray[_row, i].DestroyEvent();
+        }
+        for (int i = _row; i < gridRow - 1; i++)
+            for (int j = 0; j < gridCol; j++)
+            {
+                pointArray[i,j] = pointArray[i + 1,j]; 
+                pointArray[i, j].transform.position += new Vector3(0, Distance, 0);
+                pointArray[i, j].pointX -= 1;
+            }
+        gridRow -= 1;
+        _gamePlayController.UpdateScore(gridCol * 10);
+    }
     void Start()
     {
+        _gamePlayController = gameObject.GetComponent<GamePlayController>();
         CalculationNumber();
         CalculationArraySize();
         FixArraySize();
