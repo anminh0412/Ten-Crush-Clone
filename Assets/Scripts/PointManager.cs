@@ -15,6 +15,7 @@ public class PointManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] GameObject button;
+    [SerializeField] GameObject imageBg;
     [SerializeField] GameObject imageSatisfied;
     [SerializeField] GameObject imageSelect;
     [SerializeField] GameObject imageTarget;
@@ -25,7 +26,11 @@ public class PointManager : MonoBehaviour
     private void Start()
     {
         text.SetText(pointValue.ToString());
-        if (youAreTarget) imageTarget.SetActive(true);
+        if (youAreTarget) 
+        {
+            imageTarget.SetActive(true);
+            imageBg.SetActive(false);
+        } 
     }
     public void Satisfied()
     {

@@ -15,6 +15,9 @@ public class GridManager : MonoBehaviour
     public float currentWaitingTime;
     public bool suggested = false;
     bool gameStated = false;
+    [SerializeField] float _padding = 0.5f;
+
+    [SerializeField] RectTransform rt;
 
     [SerializeField] int _targetPoint;
     [SerializeField] int _11;
@@ -172,6 +175,7 @@ public class GridManager : MonoBehaviour
 
     void SpawnGrid()
     {
+        rt.sizeDelta = new Vector2(gridCol + _padding * 2f, gridRow + _padding * 2f);
         for (int row = 0; row < gridRow; row++)
             for (int column = 0; column < gridCol; column++) 
             {
@@ -183,10 +187,12 @@ public class GridManager : MonoBehaviour
                 pointArray[row, column]._gridManager = gameObject.GetComponent<GridManager>();
                 newTile.name = row.ToString() + column.ToString();
                 newTile.transform.parent = transform; 
-                newTile.transform.position = transform.position + new Vector3(column * Distance, -row * Distance, 0);
+                newTile.transform.position = transform.position + new Vector3(transform.position.x - gridCol / 2f, transform.position.y + gridRow/2f, 0f) + new Vector3(column * Distance, -row * Distance, 0f);
                 checkedList.Add(pointArray[row, column]);
             }
         checkedActiveList = new List<PointManager>(checkedList);
+
+        rt.position = new Vector3(gridCol / 2f - 4f, -(gridRow / 2f - 7f), 0f);
     }
     void GetRandomPositionToSetTargetPoint()
     {
