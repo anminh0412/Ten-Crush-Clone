@@ -26,6 +26,7 @@ public class GetCurrentLevel : MonoBehaviour
     {
         levelText.SetText((_currentlevel + 1).ToString());
         getLevelToPlay.GetSceneManager(levelPrefabs[_currentlevel]);
+        getLevelToPlay.GetCurrentLevel(_currentlevel);
         menuManager.OnClickBackToMenu();
     }
     private void Start()
@@ -34,6 +35,8 @@ public class GetCurrentLevel : MonoBehaviour
         getLevelToPlay = GameObject.FindGameObjectWithTag("GrabLevelInfo").GetComponent<GetLevelToPlay>();
         FindUnlockLevel();
         getLevelToPlay.GetSceneManager(levelPrefabs[levelMaxUnlock]);
+        getLevelToPlay.GetLevelList(levelPrefabs);
+        getLevelToPlay.GetCurrentLevel(levelMaxUnlock);
         levelText.SetText((levelMaxUnlock + 1).ToString());
     }
 }

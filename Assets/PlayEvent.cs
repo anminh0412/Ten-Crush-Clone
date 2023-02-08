@@ -11,6 +11,6 @@ public class PlayEvent : MonoBehaviour
     }
     void ChangeScene()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 }

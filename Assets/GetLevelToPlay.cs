@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GetLevelToPlay : MonoBehaviour
 {
+    //Level List
+    public List<GameObject> levelPrefabs = new List<GameObject>();
+    public int currentLevel;
     //Level Config
     public int _gridRow;
     public int _gridCol;
@@ -27,6 +30,21 @@ public class GetLevelToPlay : MonoBehaviour
         LevelInfo _nextLevel = level.GetComponent<LevelInfo>();
         GetNextLevelConfig(_nextLevel);
     }
+    public void GetLevelList(List<GameObject> _levelList)
+    {
+        levelPrefabs = _levelList;
+    }
+    public void GetCurrentLevel(int _currentLevel)
+    {
+        currentLevel = _currentLevel;
+    }
+    public void GetNextLevelInfo()
+    {
+        currentLevel += 1;
+        GameObject _nextLevel = levelPrefabs[currentLevel];
+        GetNextLevelConfig(_nextLevel.GetComponent<LevelInfo>());
+        _nextLevel.GetComponent<LevelStatus>().UnlockLevel();
+    }
     void GetNextLevelConfig(LevelInfo nextLevel)
     {
         _gridRow = nextLevel.gridRow;
@@ -45,5 +63,9 @@ public class GetLevelToPlay : MonoBehaviour
         _82 = nextLevel._82;
         _73 = nextLevel._73;
         _64 = nextLevel._64;
+    }
+    public void SendLevelConfigInfo(GridManager gridManager)
+    {
+        gridManager.ConfigGame(_gridRow, _gridCol, _targetPoint, _11, _22, _33, _44, _55, _66, _77, _88, _99, _91, _82, _73, _64);
     }
 }

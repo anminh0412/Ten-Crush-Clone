@@ -464,7 +464,7 @@ MonoBehaviour:
   _imgBg: {fileID: 6748790627876673634}
   _imgIcon: {fileID: 6435351065894195327}
   _lockArea: {fileID: 4241233372125306590}
-  _levelIsLock: 0
+  _levelIsLock: 1
 --- !u!114 &1741406587480938132
 MonoBehaviour:
   m_ObjectHideFlags: 0

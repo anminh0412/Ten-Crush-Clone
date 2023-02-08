@@ -63,7 +63,6 @@ public class GamePlayController : MonoBehaviour
             int? temp = checkX / checkY;
             if(temp != 1 && temp != -1)
             {
-                Debug.Log("diem chon khong hop le!!!");
                 point1.Checked();
                 point2.Checked();
                 ResetPoint();
@@ -83,7 +82,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX - i), (int)(firstPointY - i)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -103,7 +101,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX - i), (int)(firstPointY + i)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -123,7 +120,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX - i), (int)firstPointY].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -146,7 +142,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX + i), (int)(firstPointY - i)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -166,7 +161,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX + i), (int)(firstPointY + i)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -186,7 +180,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX + i), (int)(firstPointY)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -209,7 +202,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX), (int)(firstPointY - i)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -229,7 +221,6 @@ public class GamePlayController : MonoBehaviour
                     bool checkGoState = gird.pointArray[(int)(firstPointX), (int)(firstPointY + i)].state;
                     if (checkGoState)
                     {
-                        Debug.Log("Duong di da bi chan");
                         point1.Checked();
                         point2.Checked();
                         ResetPoint();
@@ -245,7 +236,6 @@ public class GamePlayController : MonoBehaviour
     {
         if (point1.pointValue == point2.pointValue || point1.pointValue + point2.pointValue == 10)
         {
-            Debug.Log("Hop le");
             UpdateScore(10);
             point1.Satisfied();
             point2.Satisfied();
@@ -272,7 +262,6 @@ public class GamePlayController : MonoBehaviour
         }
         else 
         {
-            Debug.Log("Khong hop le");
             point1.Checked();
             point2.Checked();
             return;

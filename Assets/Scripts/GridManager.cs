@@ -6,7 +6,6 @@ using TMPro;
 public class GridManager : MonoBehaviour
 {
     public GameObject TilePrefab;
-    public GameObject configCanvat;
     public int gridRow;
     public int gridCol;
     public float Distance = 1.0f;
@@ -34,24 +33,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] int _73;
     [SerializeField] int _64;
 
-
-    [SerializeField] TMP_InputField _TtargetPoint;
-    [SerializeField] TMP_InputField _TgridRow;
-    [SerializeField] TMP_InputField _TgridCol;
-    [SerializeField] TMP_InputField _T11;
-    [SerializeField] TMP_InputField _T22;
-    [SerializeField] TMP_InputField _T33;
-    [SerializeField] TMP_InputField _T44;
-    [SerializeField] TMP_InputField _T55;
-    [SerializeField] TMP_InputField _T66;
-    [SerializeField] TMP_InputField _T77;
-    [SerializeField] TMP_InputField _T88;
-    [SerializeField] TMP_InputField _T99;
-    [SerializeField] TMP_InputField _T91;
-    [SerializeField] TMP_InputField _T82;
-    [SerializeField] TMP_InputField _T73;
-    [SerializeField] TMP_InputField _T64;
-
     int _1;
     int _2;
     int _3;
@@ -75,26 +56,25 @@ public class GridManager : MonoBehaviour
     int tempRow2;
     int tempCol2;
 
-    public void ConfigGame()
+    public void ConfigGame(int row = 5, int col = 5, int target = 5, int temp11 = 0, int temp22 = 0, int temp33 = 0, int temp44 = 0, int temp55 = 0, int temp66 = 0, int temp77 = 0, int temp88 = 0, int temp99 = 0, int temp91 = 0, int temp82 = 0, int temp73 = 0, int temp64 = 0)
     {
         //Debug.Log(_TgridRow.text);
-        if (_TgridRow.text == "") gridRow = 5; else gridRow = int.Parse(_TgridRow.text);
-        if (_TgridCol.text == "") gridCol = 5; else gridCol = int.Parse(_TgridCol.text);
-        if (_T11.text == "") _11 = 0; else _11 = int.Parse(_T11.text);
-        if (_T22.text == "") _22 = 0; else _22 = int.Parse(_T22.text);
-        if (_T33.text == "") _33 = 0; else _33 = int.Parse(_T33.text);
-        if (_T44.text == "") _44 = 0; else _44 = int.Parse(_T44.text);
-        if (_T55.text == "") _55 = 0; else _55 = int.Parse(_T55.text);
-        if (_T66.text == "") _66 = 0; else _66 = int.Parse(_T66.text);
-        if (_T77.text == "") _77 = 0; else _77 = int.Parse(_T77.text);
-        if (_T88.text == "") _88 = 0; else _88 = int.Parse(_T88.text);
-        if (_T99.text == "") _99 = 0; else _99 = int.Parse(_T99.text);
-        if (_T91.text == "") _91 = 0; else _91 = int.Parse(_T91.text);
-        if (_T82.text == "") _82 = 0; else _82 = int.Parse(_T82.text);
-        if (_T73.text == "") _73 = 0; else _73 = int.Parse(_T73.text);
-        if (_T64.text == "") _64 = 0; else _64 = int.Parse(_T64.text);
-        if (_TtargetPoint.text == "") _targetPoint = 5; else _targetPoint = int.Parse(_TtargetPoint.text);
-        configCanvat.SetActive(false);
+        gridRow = row; 
+        gridCol = col; 
+        _11 = temp11; 
+        _22 = temp22; 
+        _33 = temp33; 
+        _44 = temp44; 
+        _55 = temp55; 
+        _66 = temp66;
+        _77 = temp77; 
+        _88 = temp88; 
+        _99 = temp99; 
+        _91 = temp91; 
+        _82 = temp82; 
+        _73 = temp73; 
+        _64 = temp64; 
+        _targetPoint = target; 
         GameStart();
     }
     void FixArraySize()
@@ -623,10 +603,5 @@ public class GridManager : MonoBehaviour
                 checkedActiveList = new List<PointManager>(checkedList);
             }
         }
-        Debug.Log("curren array count" + checkedActiveList.Count);
-        /*if(checkedActiveList.Count <= 0)
-        {
-            _gamePlayController.LevelLoss();
-        }*/
     }
 }

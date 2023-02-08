@@ -8,6 +8,8 @@ TagManager:
   - Music
   - SceneManager
   - GrabLevelInfo
+  - SpawnGame
+  - Traveler
   layers:
   - Default
   - TransparentFX
